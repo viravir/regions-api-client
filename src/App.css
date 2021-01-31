@@ -1,0 +1,8 @@
+.App {
+  flex: 1 1 auto;
+}
+
+.App__header {
+  color: #fff;
+  text-align: center;
+}
