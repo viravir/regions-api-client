@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { FunctionComponent, memo, useCallback, useEffect, useState } from 'react'
 
 import getRootNodes from '../../utils/getRootNodes'
 import getChildNodes from '../../utils/getChildNodes'
@@ -31,7 +31,7 @@ const Tree: FunctionComponent<TreeProps> = () => {
   const findRootNodes = useCallback(() => getRootNodes(nodes), [nodes])
   const findChildNodes = useCallback((parentNodePath) => getChildNodes(parentNodePath, nodes), [nodes])
 
-  const rootNodes = useMemo(() => findRootNodes(), [findRootNodes])
+  const rootNodes = findRootNodes()
 
   if (error) {
     return <div className="ErrorMessage">{`Error happened: ${error}`}</div>
@@ -39,9 +39,11 @@ const Tree: FunctionComponent<TreeProps> = () => {
 
   return (
     <div className="Tree">
-      {rootNodes.map((node) => (
-        <TreeNode key={node.id} node={node} findChildNodes={findChildNodes} />
-      ))}
+      {rootNodes.length > 0 ? (
+        rootNodes.map((node) => <TreeNode key={node.id} node={node} findChildNodes={findChildNodes} />)
+      ) : (
+        <div className="Tree__emptyText">No nodes to show</div>
+      )}
     </div>
   )
 }
