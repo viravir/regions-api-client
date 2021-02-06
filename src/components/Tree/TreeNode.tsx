@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, useCallback, useMemo, useState } from 'react'
+import React, { FunctionComponent, memo, useCallback, useState } from 'react'
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa'
 import { FiBox } from 'react-icons/fi'
 
@@ -14,9 +14,9 @@ const TreeNode: FunctionComponent<TreeNodeProps> = (props) => {
 
   const [collapsed, setCollapsed] = useState(false)
 
-  const childNodes = useMemo((): Region[] => findChildNodes(node.path), [findChildNodes, node.path])
+  const childNodes = findChildNodes(node.path)
 
-  const canBeCollapsed = useMemo(() => childNodes.length > 0, [childNodes.length])
+  const canBeCollapsed = childNodes.length > 0
 
   const toggleCollapse = useCallback(() => (canBeCollapsed ? setCollapsed(!collapsed) : null), [
     canBeCollapsed,
@@ -52,7 +52,7 @@ const TreeNode: FunctionComponent<TreeNodeProps> = (props) => {
       {collapsed && (
         <div className="TreeNode__childNodes TreeNode__childNodes-collapsed">
           {childNodes.map((childNode) => (
-            <TreeNode node={childNode} findChildNodes={findChildNodes} />
+            <TreeNode key={childNode.id} node={childNode} findChildNodes={findChildNodes} />
           ))}
         </div>
       )}
