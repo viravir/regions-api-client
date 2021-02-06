@@ -23,7 +23,7 @@ const TreeNode: FunctionComponent<TreeNodeProps> = (props) => {
     collapsed,
   ])
 
-  const handleTreeNodeHeaderKeyPress = useCallback(
+  const handleTreeNodeHeaderKeyDown = useCallback(
     (e) => {
       if (e.keyCode === 13) {
         toggleCollapse()
@@ -39,8 +39,7 @@ const TreeNode: FunctionComponent<TreeNodeProps> = (props) => {
         tabIndex={0}
         className={`TreeNode__header${canBeCollapsed ? ' TreeNode__header-canBeCollapsed' : ''}`}
         onClick={toggleCollapse}
-        // TODO -> add proper focusing to header
-        onKeyPress={handleTreeNodeHeaderKeyPress}
+        onKeyDown={handleTreeNodeHeaderKeyDown}
       >
         <span className="TreeNode__collapseStateIcon">
           {canBeCollapsed && collapsed ? <FaChevronDown /> : <FaChevronRight />}
