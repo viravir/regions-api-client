@@ -1,12 +1,12 @@
 import Region from '../types/Region'
 import applyBaseUrlToPath from '../utils/applyBaseUrlToPath'
 
-interface GetRequestCallback {
-  (regions: Region[], err?: string): void
+type GetRegionsResult = {
+  err?: string
+  regions: Region[]
 }
-
 class RegionsService {
-  public static async getRegions(cb: GetRequestCallback): Promise<void> {
+  public static async getRegions(): Promise<GetRegionsResult> {
     try {
       const request = new Request(applyBaseUrlToPath('/api/regions').toString(), {
         method: 'GET',
@@ -17,14 +17,13 @@ class RegionsService {
 
       if (regionsRequestResponse.ok) {
         const regions = (await regionsRequestResponse.json()) as Region[]
-        cb(regions)
-        return
+        return { regions }
       }
 
-      cb([], regionsRequestResponse.statusText)
+      throw new Error(regionsRequestResponse.statusText)
     } catch (e) {
       console.log(e)
-      cb([], e.message)
+      return { err: e.message, regions: [] }
     }
   }
 }

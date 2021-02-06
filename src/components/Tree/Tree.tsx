@@ -17,11 +17,13 @@ const Tree: FunctionComponent<TreeProps> = () => {
    * Request initial tree data on component mount
    */
   useEffect(() => {
-    RegionsService.getRegions((regions, err) => {
+    // TODO -> use dependency injection
+    RegionsService.getRegions().then(({ err, regions }): void => {
       if (err) {
         setError(err)
         return
       }
+
       setNodes(regions)
     })
   }, [])
@@ -38,7 +40,7 @@ const Tree: FunctionComponent<TreeProps> = () => {
   return (
     <div className="Tree">
       {rootNodes.map((node) => (
-        <TreeNode node={node} findChildNodes={findChildNodes} />
+        <TreeNode key={node.id} node={node} findChildNodes={findChildNodes} />
       ))}
     </div>
   )
