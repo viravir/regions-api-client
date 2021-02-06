@@ -7,7 +7,7 @@ import './Tree.css'
 import RegionsService from '../../services/RegionsService'
 import Region from '../../types/Region'
 
-type TreeProps = {}
+type TreeProps = Record<string, unknown>
 
 const Tree: FunctionComponent<TreeProps> = () => {
   const [nodes, setNodes] = useState([] as Region[])
@@ -32,14 +32,16 @@ const Tree: FunctionComponent<TreeProps> = () => {
   const rootNodes = useMemo(() => findRootNodes(), [findRootNodes])
 
   if (error) {
-    return <div className="ErrorMessage">
-      {`Error happened: ${error}`}
-    </div>
+    return <div className="ErrorMessage">{`Error happened: ${error}`}</div>
   }
 
-  return <div className="Tree">
-    {rootNodes.map(node => <TreeNode node={node} findChildNodes={findChildNodes} />)}
-  </div>
+  return (
+    <div className="Tree">
+      {rootNodes.map((node) => (
+        <TreeNode node={node} findChildNodes={findChildNodes} />
+      ))}
+    </div>
+  )
 }
 
 export default memo(Tree)

@@ -1,7 +1,9 @@
 import Region from '../types/Region'
 import applyBaseUrlToPath from '../utils/applyBaseUrlToPath'
 
-interface GetRequestCallback { (regions: Region[], err?: string): void }
+interface GetRequestCallback {
+  (regions: Region[], err?: string): void
+}
 
 class RegionsService {
   public static async getRegions(cb: GetRequestCallback): Promise<void> {
@@ -14,7 +16,7 @@ class RegionsService {
       const regionsRequestResponse = await fetch(request)
 
       if (regionsRequestResponse.ok) {
-        const regions = await regionsRequestResponse.json() as Region[]
+        const regions = (await regionsRequestResponse.json()) as Region[]
         cb(regions)
         return
       }
